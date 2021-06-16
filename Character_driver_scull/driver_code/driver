@@ -1,0 +1,63 @@
+#!/bin/bash
+insert_driver()
+{
+	insmod ./ghost_modules/ghost.ko		nod=5
+	echo
+	echo "**********module inserted successfully***********"
+	read
+	lsmod
+	read
+	dmesg
+	read -n4 -p "Enter major number " major_no
+	cat /proc/devices
+	read
+}
+
+remove_driver()
+{
+	rmmod ghost
+	echo
+	echo "**********module removed successfully***********"
+	read
+	dmesg
+	read
+	cat /proc/devices
+	read
+}
+
+ci $(ls *.c *.h)
+co $(ls *.c,v *.h,v)
+unlink /home/atul063/hello_world/my_node
+
+if ( make )
+then
+	echo "****Make successful****"
+	read -n1 -p "Do you want to insert your char_driver???  "
+	if [ $REPLY == 'y' ]
+	then
+		insert_driver
+		mknod /home/atul063/hello_world/my_node c $major_no 0
+		read -n1 -p "Do you want to run app??  "
+		if [ $REPLY == 'y' ]
+		then
+			cd /home/atul063/hello_world					# This is important as without changing to the directory we(a.out) cannot access its files.
+			./a.out
+			cd -
+		fi
+		remove_driver
+	fi
+else
+	echo "Thank you for compiling my program :)"
+fi
+echo
+
+
+read -n1 -p "Do you want to edit further (y/n) "
+if [ $REPLY == 'y' ]
+then
+	co -l $(ls *.c,v *.h,v)
+fi
+		
+
+
+
