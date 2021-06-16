@@ -1,0 +1,14 @@
+__init function -> entry function of our driver
+
+__init entry_func(void)
+    * allocate major and minor number
+        alloc_chrdev_region()
+        Will not use register_chrdev_region()
+    * Make node for the device i.e. make char file in the fs to be accessed by the user
+        class_create(), device_create()
+
+    * initialize cdev, add fops to it and then add cdev to kernel
+        cdev_init(), cdev_add()
+
+
+read/write: copy_to_user, copy_from_user. The reason to ue these is because we have a user space pointer that we cannot say definitely that it is pointing to correct memory(User-space memory is swappable and it is also possible that the pointer may be malicious)
