@@ -1,0 +1,18 @@
+
+/********************** STEPS TO EXECUTE **************************/
+
+1) Build the module: 					$ make
+2) Insert the module: 					sudo insmod usb.ko
+
+   This module by default works for 16GB pendrive. If you insert different capacity pendrive calculate capacity of device as -- (Size in GB) / 512. And then use
+   "sudo insmod usb.ko dev_capacity=<your calculated capacity> "
+
+3) Create directory for mounting:       $ sudo mkdir /media/<directory name>
+4) Mount the device: 					$ sudo mount -o dmask=0000 -o fmask=0111 /dev/usbDev1 /media/<directory name>
+5) Now read/write to the files in the disk
+6) Unmount the device: 					$ sudo umount /media/<directory name>
+7) Remove the module: 					$ sudo rmmod usb
+
+NOTE: Remove the pendrive only after removing the module.(step 7)
+
+/*******************************************************************/
